@@ -3,6 +3,35 @@ require_once __DIR__ . '/db.php';
 
 $action = $_POST['action'] ?? ($_GET['action'] ?? '');
 
+// Глобальный обработчик для предупреждений/фатальных ошибок, чтобы фронт всегда получил JSON
+$responseSent = false;
+
+set_error_handler(function ($severity, $message, $file, $line) use (&$responseSent) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+
+    $exception = new ErrorException($message, 0, $severity, $file, $line);
+    http_response_code(500);
+    error_log('Auth warning/error: ' . $exception->getMessage());
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Ошибка сервера. Проверьте логи для деталей']);
+    $responseSent = true;
+    exit;
+});
+
+register_shutdown_function(function () use (&$responseSent) {
+    $error = error_get_last();
+    if ($responseSent || $error === null) {
+        return;
+    }
+
+    http_response_code(500);
+    header('Content-Type: application/json');
+    error_log('Auth fatal error: ' . ($error['message'] ?? 'unknown'));
+    echo json_encode(['success' => false, 'message' => 'Критическая ошибка сервера, детали в логах']);
+});
+
 if ($action === 'logout') {
     session_destroy();
 
