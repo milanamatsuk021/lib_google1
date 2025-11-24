@@ -27,16 +27,24 @@ async function handleAuth(event, type) {
             method: 'POST',
             body: formData
         });
-        const result = await response.json();
+
+        let result;
+        try {
+            result = await response.json();
+        } catch (parseError) {
+            const rawText = await response.text();
+            console.error('Auth raw response:', rawText);
+            throw new Error('Ответ сервера не в формате JSON');
+        }
 
         if (result.success) {
             window.location.href = 'dashboard.php';
         } else {
-            document.getElementById('message-box').textContent = result.message;
+            document.getElementById('message-box').textContent = result.message || 'Ошибка сервера';
         }
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('message-box').textContent = 'Произошла ошибка сервера';
+        document.getElementById('message-box').textContent = 'Произошла ошибка сервера. Проверьте параметры БД и ошибки в логах';
     }
 }
 
