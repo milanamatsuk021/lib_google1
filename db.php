@@ -14,13 +14,13 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
+} catch (Throwable $e) {
     http_response_code(500);
     header('Content-Type: application/json');
     error_log('DB connection error: ' . $e->getMessage());
     echo json_encode([
         'success' => false,
-        'message' => 'Не удалось подключиться к базе. Проверьте хост, логин, пароль и имя БД в переменных окружения DB_HOST, DB_USER, DB_PASS, DB_NAME.'
+        'message' => 'Не удалось подключиться к базе. Проверьте хост, логин, пароль, имя БД и расширение pdo_mysql. Значения берутся из DB_HOST, DB_USER, DB_PASS, DB_NAME.'
     ]);
     exit;
 }

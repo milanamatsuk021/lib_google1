@@ -1,4 +1,33 @@
 <?php
+// Глобальные обработчики, чтобы всегда отдавать JSON даже при фатальных ошибках БД/расширений
+$responseSent = false;
+
+set_error_handler(function ($severity, $message, $file, $line) use (&$responseSent) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+
+    $exception = new ErrorException($message, 0, $severity, $file, $line);
+    http_response_code(500);
+    header('Content-Type: application/json');
+    error_log('Book actions warning/error: ' . $exception->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Ошибка сервера. Проверьте логи и подключение к БД']);
+    $responseSent = true;
+    exit;
+});
+
+register_shutdown_function(function () use (&$responseSent) {
+    $error = error_get_last();
+    if ($responseSent || $error === null) {
+        return;
+    }
+
+    http_response_code(500);
+    header('Content-Type: application/json');
+    error_log('Book actions fatal error: ' . ($error['message'] ?? 'unknown'));
+    echo json_encode(['success' => false, 'message' => 'Критическая ошибка сервера, детали в логах']);
+});
+
 require_once __DIR__ . '/db.php';
 
 header('Content-Type: application/json');

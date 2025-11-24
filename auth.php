@@ -1,9 +1,6 @@
 <?php
-require_once __DIR__ . '/db.php';
-
-$action = $_POST['action'] ?? ($_GET['action'] ?? '');
-
-// Глобальный обработчик для предупреждений/фатальных ошибок, чтобы фронт всегда получил JSON
+// Глобальный обработчик для предупреждений/фатальных ошибок, чтобы фронт всегда получил JSON,
+// даже если не загрузилось подключение к БД или расширение PDO
 $responseSent = false;
 
 set_error_handler(function ($severity, $message, $file, $line) use (&$responseSent) {
@@ -31,6 +28,10 @@ register_shutdown_function(function () use (&$responseSent) {
     error_log('Auth fatal error: ' . ($error['message'] ?? 'unknown'));
     echo json_encode(['success' => false, 'message' => 'Критическая ошибка сервера, детали в логах']);
 });
+
+require_once __DIR__ . '/db.php';
+
+$action = $_POST['action'] ?? ($_GET['action'] ?? '');
 
 if ($action === 'logout') {
     session_destroy();
