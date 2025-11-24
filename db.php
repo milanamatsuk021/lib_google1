@@ -17,7 +17,11 @@ try {
 } catch (PDOException $e) {
     http_response_code(500);
     header('Content-Type: application/json');
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    error_log('DB connection error: ' . $e->getMessage());
+    echo json_encode([
+        'success' => false,
+        'message' => 'Не удалось подключиться к базе. Проверьте хост, логин, пароль и имя БД в переменных окружения DB_HOST, DB_USER, DB_PASS, DB_NAME.'
+    ]);
     exit;
 }
 
