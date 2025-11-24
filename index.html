@@ -1,28 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Personal Library</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@heroicons/react/": "https://aistudiocdn.com/@heroicons/react@^2.2.0/"
-  }
-}
-</script>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Личная библиотека — перенаправление</title>
+  <meta http-equiv="refresh" content="0; url=index.php" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      max-width: 420px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+    p {
+      margin: 0 0 16px;
+      color: #475569;
+    }
+    a {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      background: #2563eb;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    }
+    small {
+      display: block;
+      margin-top: 12px;
+      color: #94a3b8;
+    }
+  </style>
 </head>
-  <body class="bg-slate-50 text-slate-900 antialiased">
-    <div id="root"></div>
-  </body>
+<body>
+  <div class="card">
+    <h1>Перенаправление на вход</h1>
+    <p>Если перенаправление не сработало автоматически, перейдите по кнопке ниже.</p>
+    <a href="index.php">Открыть страницу входа</a>
+    <small>Главная HTML-страница используется только для перенаправления.</small>
+  </div>
+</body>
 </html>
