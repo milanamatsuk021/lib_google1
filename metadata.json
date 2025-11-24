@@ -1,0 +1,5 @@
+{
+  "name": "Personal Library",
+  "description": "A personal book tracking application featuring user authentication and book management (CRUD) with reviews.",
+  "requestFramePermissions": []
+}
